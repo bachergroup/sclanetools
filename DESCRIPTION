@@ -10,4 +10,8 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    shiny
+    dplyr,
+    scLANE,
+    Seurat,
+    shiny,
+    shinyjs

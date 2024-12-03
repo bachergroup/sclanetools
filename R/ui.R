@@ -1,6 +1,7 @@
 library(shiny)
 
 ui <- fluidPage(
+  useShinyjs(),
   titlePanel("Generate Executable File for scLANE Analysis"),
   sidebarLayout(
     sidebarPanel(
@@ -12,12 +13,12 @@ ui <- fluidPage(
         label = "Select Model Type",
         choices = list("GLM", "GLMM", "GEE")
       ),
-      numericInput("basis_functions",
+      numericInput("n_potential_basis_fns",
         label = "No. of Basis Functions (optional, defaults to 5, recommended between 3-7)",
         value = 5,
         min = 1
       ),
-      numericInput("variable_genes",
+      numericInput("highly_variable_genes",
         label = "How many highly variable genes?",
         value = 2000,
         min = 1
@@ -34,11 +35,13 @@ ui <- fluidPage(
         label = "Cell Offset Column Name (optional)",
         value = ""
       ),
-      actionButton("generate_download", "Generate and Download")
+      actionButton("generate", "Generate"),
+      downloadButton("download_file", "Download File", style = "display: none;") # Initially hidden
     ),
     mainPanel(
       h4("Instructions:"),
-      p("Fill in the required fields and upload the necessary files to generate the executable file for scLANE analysis.")
+      p("Fill in the required fields and upload the necessary files to generate the executable file for scLANE analysis."),
+      htmlOutput("validation_message", style = "color: red; font-weight: bold;")
     )
   )
 )
