@@ -1,9 +1,9 @@
-Package: sclanedatagenerator
+Package: sclanetools
 Type: Package
-Title: What the Package Does (Title Case)
+Title: SC Lane: Tools for Single Cell RNA-Seq Data Analysis
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Shyam Bahety
+Maintainer: bahetyshyam@gmail.com
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
@@ -11,6 +11,8 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     dplyr,
+    DT,
+    ggplot2,
     scLANE,
     Seurat,
     shiny,
