@@ -1,5 +1,6 @@
 library(shiny)
 
+#' @export
 databuilderModuleUI <- function(id) {
   ns <- NS(id)
   fluidPage(

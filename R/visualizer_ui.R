@@ -2,6 +2,7 @@ library(shiny)
 library(DT)
 library(shinyjs)
 
+#' @export
 visualizerModuleUI <- function(id) {
   ns <- NS(id)
   fluidPage(

@@ -4,6 +4,7 @@ library(DT)
 library(ggplot2)
 library(shinyjs)
 
+#' @export
 visualizerModuleServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     # Disable the upload button initially
@@ -115,8 +116,8 @@ visualizerModuleServer <- function(id) {
     # Render the plot
     output$genePlot <- renderPlot(
       {
-        req(plotInputObject()) # Ensure plot data is ready
-        plotInputObject() # Render the plot
+        req(plotInputObject())
+        plotInputObject()
       },
       width = "auto",
     )
@@ -151,9 +152,9 @@ visualizerModuleServer <- function(id) {
       },
       content = function(file) {
         # Create the plot
-        pdf(file, height = 6, width = 8) # Specify size of PDF
-        print(plotInputObject()) # Print the plot to the PDF
-        dev.off() # Close the PDF device
+        pdf(file, height = 6, width = 8)
+        print(plotInputObject())
+        dev.off()
       }
     )
 
@@ -163,8 +164,7 @@ visualizerModuleServer <- function(id) {
         paste("gene_table_", Sys.Date(), ".csv", sep = "")
       },
       content = function(file) {
-        req(genesNameList()) # Ensure gene list is available
-        # Convert the list to a DataFrame for download
+        req(genesNameList())
         geneDF <- data.frame(Gene = genesNameList(), stringsAsFactors = FALSE)
         write.csv(geneDF, file, row.names = FALSE)
       }

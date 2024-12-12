@@ -3,7 +3,7 @@ Type: Package
 Title: SC Lane: Tools for Single Cell RNA-Seq Data Analysis
 Version: 0.1.0
 Author: Shyam Bahety
-Maintainer: bahetyshyam@gmail.com
+Maintainer: Shyam Bahety <bahetyshyam@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
@@ -17,3 +17,4 @@ Imports:
     Seurat,
     shiny,
     shinyjs
+RoxygenNote: 7.3.2
