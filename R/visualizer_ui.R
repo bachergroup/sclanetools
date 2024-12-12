@@ -150,8 +150,8 @@ visualizerModuleUI <- function(id) {
         fluidRow(
           column(12,
             align = "center",
-            fileInput("rdsFileInput", label = "File Selection Tool", buttonLabel = "Browse"),
-            actionButton("visualize", "Visualize", class = "btn-primary")
+            fileInput(ns("rdsFileInput"), label = "File Selection Tool", buttonLabel = "Browse"),
+            actionButton(ns("visualize"), "Visualize", class = "btn-primary")
           )
         ),
 
@@ -169,11 +169,11 @@ visualizerModuleUI <- function(id) {
           div(
             class = "plot-container",
             div(
-              plotOutput("genePlot", height = "600px", width = "100%")
+              plotOutput(ns("genePlot"), height = "600px", width = "100%")
             ),
             conditionalPanel(
               condition = "output.genePlot",
-              downloadButton("downloadPlot", "Download PDF")
+              downloadButton(ns("downloadPlot"), "Download PDF")
             )
           )
         ),
@@ -182,11 +182,11 @@ visualizerModuleUI <- function(id) {
           div(
             class = "datatable-container",
             div(
-              DT::dataTableOutput("geneTable", height = "600px")
+              DT::dataTableOutput(ns("geneTable"), height = "600px")
             ),
             conditionalPanel(
               condition = "output.geneTable",
-              downloadButton("downloadTable", "Download CSV")
+              downloadButton(ns("downloadTable"), "Download CSV")
             )
           )
         )
