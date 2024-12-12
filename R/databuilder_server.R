@@ -47,7 +47,6 @@ databuilderModuleServer <- function(id) {
         paste0("inputObject_", gsub("\\..*$", "", original_file_name), ".rds")
       },
       content = function(file) {
-        print(values$generated_file)
         req(values$generated_file)
         saveRDS(values$generated_file, file)
       }
