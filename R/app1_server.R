@@ -3,6 +3,8 @@ library(dplyr)
 library(scLANE)
 library(Seurat)
 library(shinyjs)
+library(rlang)
+
 
 #' @export
 databuilderModuleServer <- function(id) {
@@ -158,7 +160,7 @@ process_and_generate_file <- function(input, values) {
     }
   )
 
-  hvgs <- HVFInfo(uploaded_object)
+  hvgs <- Seurat::HVFInfo(uploaded_object)
   hvgs <- hvgs[hvgs$mean > 0.05, ]
   hvgs <- hvgs[order(hvgs$variance.standardized, decreasing = TRUE), ]
   hvgs$gene <- rownames(hvgs)
