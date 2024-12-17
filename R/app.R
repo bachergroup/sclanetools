@@ -10,7 +10,7 @@ startShinyApp <- function(port = 19901, is_local_development = TRUE) {
   # not open up. We should use FALSE in production server
   options_args <- list(
     shiny.maxRequestSize = 10000 * 1024^5,
-    shiny.launch.browser = FALSE,
+    shiny.launch.browser = is_local_development,
     shiny.port = port,
     test.mode = getOption("shiny.testmode", FALSE)
   )
