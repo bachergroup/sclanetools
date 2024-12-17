@@ -37,7 +37,7 @@ databuilderModuleServer <- function(id) {
         },
         error = function(e) {
           cat("Error: ", e$message, "\n")
-          traceback()
+          print(trace_back())
           handle_error(e)
         }
       )
