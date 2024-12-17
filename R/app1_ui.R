@@ -1,11 +1,11 @@
 library(shiny)
-
+library(shinyjs)
 #' @export
 databuilderModuleUI <- function(id) {
   ns <- NS(id)
 
   fluidPage(
-    useShinyjs(),
+    shinyjs::useShinyjs(),
     titlePanel("Generate Executable File for scLANE Analysis"),
     sidebarLayout(
       sidebarPanel(
