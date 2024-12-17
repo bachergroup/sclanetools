@@ -156,10 +156,10 @@ process_and_generate_file <- function(input, values) {
     }
   )
 
-  hvgs <- HVFInfo(uploaded_object) %>%
-    filter(mean > 0.05) %>%
-    arrange(desc(variance.standardized)) %>%
-    mutate(gene = rownames(.))
+  hvgs <- HVFInfo(uploaded_object)
+  hvgs <- hvgs[hvgs$mean > 0.05, ]
+  hvgs <- hvgs[order(hvgs$variance.standardized, decreasing = TRUE), ]
+  hvgs$gene <- rownames(hvgs)
 
   num_hvgs <- input$highly_variable_genes
   hvgs <- hvgs[1:num_hvgs, ]
