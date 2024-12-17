@@ -6,7 +6,6 @@ library(shinyjs)
 visualizerModuleUI <- function(id) {
   ns <- NS(id)
   fluidPage(
-    useShinyjs(),
     tags$head(
       tags$style(HTML("
 

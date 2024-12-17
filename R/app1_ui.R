@@ -5,7 +5,6 @@ databuilderModuleUI <- function(id) {
   ns <- NS(id)
 
   fluidPage(
-    shinyjs::useShinyjs(),
     titlePanel("Generate Executable File for scLANE Analysis"),
     sidebarLayout(
       sidebarPanel(
