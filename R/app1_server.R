@@ -33,6 +33,8 @@ databuilderModuleServer <- function(id) {
           returned_list <- process_and_generate_file(input, values)
           values$generated_file <- returned_list
           removeModal()
+          print("File generated successfully.")
+          print("Show download button")
           shinyjs::show("download_file")
         },
         error = function(e) {
