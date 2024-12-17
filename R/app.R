@@ -1,3 +1,5 @@
+library(shinyjs)
+
 # Run the application
 #' Runs the Shiny app.
 #'
@@ -19,5 +21,6 @@ startShinyApp <- function(port = 19901, is_local_development = TRUE) {
     options_args$shiny.host <- "0.0.0.0"
   }
   do.call(options, options_args)
+  shinyjs::useShinyjs()
   shinyApp(ui, server)
 }
