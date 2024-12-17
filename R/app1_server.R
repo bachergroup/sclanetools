@@ -36,6 +36,8 @@ databuilderModuleServer <- function(id) {
           shinyjs::show("download_file")
         },
         error = function(e) {
+          cat("Error: ", e$message, "\n")
+          traceback()
           handle_error(e)
         }
       )
