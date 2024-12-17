@@ -169,12 +169,12 @@ process_and_generate_file <- function(input, values) {
   hvgs <- hvgs[1:num_hvgs, ]
   pseudo_time_column <- input$pseudo_time_column
 
-  sorted_object <- sortObservations(uploaded_object,
+  sorted_object <- scLANE::sortObservations(uploaded_object,
     pt = uploaded_object[[pseudo_time_column]][[1]],
     id.vec = uploaded_object$fetal.ids
   )
 
-  cell_offset <- createCellOffset(sorted_object)
+  cell_offset <- scLANE::createCellOffset(sorted_object)
   pt_df <- data.frame(DPT = sorted_object[[pseudo_time_column]][[1]])
 
   is_geee <- input$model_type == "GEE"
