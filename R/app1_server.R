@@ -3,8 +3,6 @@ library(dplyr)
 library(scLANE)
 library(Seurat)
 library(shinyjs)
-library(rlang)
-
 
 #' @export
 databuilderModuleServer <- function(id) {
@@ -38,8 +36,6 @@ databuilderModuleServer <- function(id) {
           shinyjs::show("download_file")
         },
         error = function(e) {
-          cat("Error: ", e$message, "\n")
-          print(trace_back())
           handle_error(e)
         }
       )
