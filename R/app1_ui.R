@@ -9,7 +9,7 @@ databuilderModuleUI <- function(id) {
     sidebarLayout(
       sidebarPanel(
         fileInput(ns("upload_file"),
-          label = "Upload Expression Matrix / Seurat Object",
+          label = "Upload Expression Matrix / Seurat Object (requires .rds)",
           accept = c(".rds")
         ),
         radioButtons(ns("model_type"),
@@ -17,7 +17,7 @@ databuilderModuleUI <- function(id) {
           choices = list("GLM", "GLMM", "GEE")
         ),
         numericInput(ns("n_potential_basis_fns"),
-          label = "No. of Basis Functions (optional, defaults to 5, recommended between 3-7)",
+          label = "No. of basis functions (optional, defaults to 5, recommended between 3-7)",
           value = 5,
           min = 1
         ),
@@ -27,15 +27,15 @@ databuilderModuleUI <- function(id) {
           min = 1
         ),
         numericInput(ns("random_seed"),
-          label = "Random Seed",
+          label = "Random seed",
           value = 312
         ),
         textInput(ns("pseudo_time_column"),
-          label = "Name of Pseudo Time Column",
+          label = "Name of pseudotime column in metadata",
           value = ""
         ),
         textInput(ns("cell_offset_column"),
-          label = "Cell Offset Column Name (optional)",
+          label = "Name of cell offset column in metadata (optional)",
           value = ""
         ),
         actionButton(ns("generate"), "Generate"),
