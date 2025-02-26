@@ -3,6 +3,7 @@ library(dplyr)
 library(scLANE)
 library(Seurat)
 library(shinyjs)
+options(shiny.maxRequestSize=3000*1024^2)
 
 
 #' @export
@@ -130,7 +131,7 @@ databuilderModuleServer <- function(id) {
   output$end_message <- renderUI({
     req(values$generated_file)
       HTML(paste0("<h5>", "Next, upload this file to the ", 
-                  "<a, href='https://github.com/bachergroup/sclanetools/issues'>", 
+                  "<a, target = '_blank', href='https://sclane.rc.ufl.edu'>", 
                   "<button style='color:blue'>", "scLANE webserver", "</button></a>"))
     })
     
@@ -260,7 +261,7 @@ process_and_generate_file <- function(input, values) {
 
   if(input$model_type != "GLM") {
     if (class(uploaded_object) != "Seurat") {
-   
+
       sorted_object <- scLANE::sortObservations(uploaded_object,
                                       pt = uploaded_object[[input$pseudo_time_column]],
                                       id.vec = uploaded_object[[input$subject_id]]
@@ -274,7 +275,7 @@ process_and_generate_file <- function(input, values) {
     ## Need to re-order everything here!
     if (class(uploaded_object) == "Seurat") {
          sorted_cols_order <- colnames(sorted_object)
-          if(is.null(input$cell_offset_column)) {
+          if(input$cell_offset_column == "") {
             cell_offset <- scLANE::createCellOffset(sorted_object)
           } else cell_offset <- sorted_object[[input$cell_offset_column]][sorted_cols_order,]
           
@@ -284,7 +285,7 @@ process_and_generate_file <- function(input, values) {
           
      } else if (class(uploaded_object) != "Seurat") {
          sorted_cols_order <- colnames(sorted_object)
-         if(is.null(input$cell_offset_column)) {
+         if(input$cell_offset_column == "") {
            cell_offset <- scLANE::createCellOffset(sorted_object)
            } else cell_offset <- uploaded_object[[input$cell_offset_column]][sorted_cols_order]
            
@@ -297,7 +298,7 @@ process_and_generate_file <- function(input, values) {
 
   if(input$model_type == "GLM") {
     if (class(uploaded_object) == "Seurat") {
-      if(is.null(input$cell_offset_column)) {
+      if(input$cell_offset_column == "") {
         cell_offset <- scLANE::createCellOffset(uploaded_object)
       } else cell_offset <- uploaded_object[[input$cell_offset_column]][[1]]
       
@@ -306,7 +307,7 @@ process_and_generate_file <- function(input, values) {
       expr_mat <- uploaded_object@assays$RNA@counts[hvgs,]
     } else if (class(uploaded_object) != "Seurat") {
  
-      if(is.null(input$cell_offset_column)) {
+      if(input$cell_offset_column == "") {
         cell_offset <- scLANE::createCellOffset(uploaded_object$Data)
         } else  cell_offset <- uploaded_object[[input$cell_offset_column]]
        
