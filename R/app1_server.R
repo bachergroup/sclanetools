@@ -131,7 +131,7 @@ databuilderModuleServer <- function(id) {
   output$end_message <- renderUI({
     req(values$generated_file)
       HTML(paste0("<h5>", "Next, upload this file to the ", 
-                  "<a, href='https://github.com/bachergroup/sclanetools/issues'>", 
+                  "<a, target = '_blank', href='https://sclane.rc.ufl.edu'>", 
                   "<button style='color:blue'>", "scLANE webserver", "</button></a>"))
     })
     

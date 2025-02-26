@@ -190,6 +190,7 @@ visualizerModuleUI <- function(id) {
           )
         )
       )
-      )
+      ),
+    p("Please report any comments, questions, or issues at ", tags$a("Github",href="https://github.com/bachergroup/sclanetools/issues",target = "_blank"))
     )
 }

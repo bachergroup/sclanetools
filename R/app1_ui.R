@@ -6,7 +6,7 @@ databuilderModuleUI <- function(id) {
 
   fluidPage(
     ## RB: This link will change to webserver once live.
-    titlePanel(tags$h2("Generate executable file for running ", tags$a("scLANE",href="https://sclane-tools.rc.ufl.edu/"))),
+    titlePanel(tags$h2("Generate executable file for running ", tags$a("scLANE",target = "_blank",href="https://sclane.rc.ufl.edu"))),
     sidebarLayout(
       sidebarPanel(
         fileInput(nshiny("upload_file"),
@@ -67,6 +67,9 @@ databuilderModuleUI <- function(id) {
         tags$p(tags$b("Subject ID column: "), "If GEE or GLMM mode are selected, then a Seurat metadata column or named list
           object containing the subject/sample IDs is required.",style="text-align:left; color:black"),
         
+        tags$p("If using a custom data object, a screenshot demonstrating the required format and minimal requirements is available on ",
+                  tags$a("GitHub.",target = "_blank",href="https://github.com/bachergroup/sclanetools"), style="text-align:left; color:black"),
+        
  tags$br(),
           htmlOutput(nshiny("validation_message"), style = "color: red; font-weight: bold;"),
             
@@ -80,7 +83,7 @@ databuilderModuleUI <- function(id) {
           htmlOutput(nshiny("end_message"),style="text-align:left; color:black"),
 
  
-        p("Please report any comments, questions, or issues at ", tags$a("Github",href="https://github.com/bachergroup/sclanetools/issues")),
+        p("Please report any comments, questions, or issues at ", tags$a("Github",target = "_blank",href="https://github.com/bachergroup/sclanetools/issues")),
  
       )
     )
