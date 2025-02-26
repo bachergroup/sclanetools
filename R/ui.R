@@ -3,7 +3,7 @@ library(shinyjs)
 
 ui <- fluidPage(
   shinyjs::useShinyjs(),
-  titlePanel("scLANE: Tools for Single-Cell RNA-Seq Analysis"),
+  titlePanel("scLANE Tools"),
   tabsetPanel(
     tabPanel("Data Builder", databuilderModuleUI("databuilder")),
     tabPanel("Visualizer", visualizerModuleUI("visualizer"))

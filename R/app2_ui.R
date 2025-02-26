@@ -11,8 +11,8 @@ visualizerModuleUI <- function(id) {
 
       .top-container {
         background: lightgray;
-        margin: 10px;
-        border-radius: 8px;
+        margin: 1px;
+        border-radius: 1px;
         background-color: #f5f5f5;
       }
       /* Title styling */
@@ -21,8 +21,8 @@ visualizerModuleUI <- function(id) {
         font-weight: bold;
         color: #4A4A4A;
         text-align: center;
-        padding: 20px;
-        border-radius: 8px;
+        padding: 1px;
+        border-radius: 1px;
       }
 
       /* Subtitle styling */
@@ -30,7 +30,7 @@ visualizerModuleUI <- function(id) {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: #666666;
         text-align: center;
-        padding-bottom: 10px;
+        padding-bottom: 1px;
       }
 
       /* Paragraph styling */
@@ -38,13 +38,13 @@ visualizerModuleUI <- function(id) {
         font-size: 14px;
         color: #888888;
         text-align: center;
-        padding: 5px;
+        padding: 1px;
       }
 
       /* Custom styling for file input */
       .shiny-input-container {
         text-align: center;
-        margin: 20px auto;
+        margin: 5px auto;
         width: 50%;
         font-size: 16px;
       }
@@ -98,28 +98,28 @@ visualizerModuleUI <- function(id) {
       }
 
       .datatable-container {
-        margin: 10px;
-        padding: 10px;
+        margin: 5px;
+        padding: 5px;
         background: #f5f5f5;
         border-radius: 8px;
       }
 
       #genePlot {
-        padding: 10px;
+        padding: 5px;
       }
 
       #geneTable {
-        padding: 10px;
+        padding: 5px;
         background: white;
       }
 
       #downloadPlot {
-        margin-top: 20px;
+        margin-top: 10px;
         width: 100%;
       }
 
       #downloadTable {
-        margin-top: 20px;
+        margin-top: 10px;
         width: 100%;
       }
 
@@ -127,7 +127,7 @@ visualizerModuleUI <- function(id) {
       #loadingSpinner {
         display: none;
         text-align: center;
-        padding: 20px 0px;
+        padding: 10px 0px;
       }
       #loadingSpinner img {
         width: 100px;
@@ -136,60 +136,60 @@ visualizerModuleUI <- function(id) {
     ),
 
     # Wrapping all content in a div for padding
-    div(
-      class = "app-container",
       div(
-        class = "top-container",
-        # Title Panel
-        tags$h1("SCLANE Visualizer"),
-        tags$h4("Explore the plots and data of SCLANE"),
-        tags$p("Upload the .RData object for simulation data to proceed."),
-
-        # File Selection and Upload Button
-        fluidRow(
-          column(12,
-            align = "center",
-            fileInput(ns("rdsFileInput"), label = "File Selection Tool", buttonLabel = "Browse"),
-            actionButton(ns("visualize"), "Visualize", class = "btn-primary")
-          )
-        ),
-
-        # Loading Spinner
+        class = "app-container",
+      
+          
+       column(3,
         div(
-          id = "loadingSpinner",
-          "Loading...",
-        ),
-      ),
+          class = "top-container",
+          # Title Panel
+          tags$h1("scLANE Visualizer"),
+          tags$p("Upload both the results .RDS object output from scLANE webserver and the input .RDS used to generate the results."),
+  
+          # File Selection and Upload Button
+          fluidRow(  
+            column(10,
+              align = "center",
+              fileInput(ns("rdsFileInput_Res"), label = "Upload scLANE Model Results", buttonLabel = "Browse"),
+              fileInput(ns("rdsFileInput_Orig"), label = "Upload scLANE Input Data", buttonLabel = "Browse"))
+          ),
+  
+          # Loading Spinner
+          div(
+            id = "loadingSpinner",
+            "Loading...",
+          )
+        )),
 
       # Main Content Layout
-      fluidRow(
-        column(
-          6,
+        column(9,
           div(
             class = "plot-container",
             div(
-              plotOutput(ns("genePlot"), height = "600px", width = "100%")
+              plotOutput(ns("genePlot"), width = "100%")
             ),
             conditionalPanel(
-              condition = "output.genePlot",
+              condition = "output.genePlot  != NULL",
               downloadButton(ns("downloadPlot"), "Download PDF")
             )
           )
         ),
+      fluidRow(  
         column(
-          6,
+          12,
           div(
             class = "datatable-container",
             div(
-              DT::dataTableOutput(ns("geneTable"), height = "600px")
+              DT::dataTableOutput(ns("geneTable"), width = "100%")
             ),
             conditionalPanel(
-              condition = "output.geneTable",
+              condition = "output.geneTable != NULL",
               downloadButton(ns("downloadTable"), "Download CSV")
             )
           )
         )
       )
+      )
     )
-  )
 }
