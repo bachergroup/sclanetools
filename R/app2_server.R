@@ -4,9 +4,17 @@ library(DT)
 library(ggplot2)
 library(shinyjs)
 library(tidyr)
-library(magrittr)
+
 options(shiny.maxRequestSize=3000*1024^2)
 
+#' @import dplyr
+#' @import DT
+#' @import scLANE
+#' @import ggplot2
+#' @import tidyr
+#' @import shinyjs
+#' @import tidyr
+#' @import Seurat
 #' @export
 visualizerModuleServer <- function(id) {
   moduleServer(id, function(input, output, session) {
