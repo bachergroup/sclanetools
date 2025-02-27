@@ -4,6 +4,7 @@ library(DT)
 library(ggplot2)
 library(shinyjs)
 library(tidyr)
+library(magrittr)
 options(shiny.maxRequestSize=3000*1024^2)
 
 #' @export
