@@ -15,6 +15,11 @@ options(shiny.maxRequestSize=3000*1024^2)
 #' @import shinyjs
 #' @import tidyr
 #' @import Seurat
+#' @import ggpubr
+#' @import gridExtra
+#' @import gtable
+#' @import grid
+#' @import purrr
 #' @export
 visualizerModuleServer <- function(id) {
   moduleServer(id, function(input, output, session) {
