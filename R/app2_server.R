@@ -4,7 +4,6 @@ library(DT)
 library(ggplot2)
 library(shinyjs)
 library(tidyr)
-library(shinyjs)
 
 options(shiny.maxRequestSize=3000*1024^2)
 
