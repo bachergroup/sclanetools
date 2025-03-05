@@ -98,8 +98,8 @@ visualizerModuleUI <- function(id) {
       }
 
       .datatable-container {
-        margin: 5px;
-        padding: 5px;
+        margin: 10px;
+        padding: 10px;
         background: #f5f5f5;
         border-radius: 8px;
       }
@@ -169,10 +169,8 @@ visualizerModuleUI <- function(id) {
             div(
               plotOutput(ns("genePlot"), width = "100%")
             ),
-            conditionalPanel(
-              condition = "output.genePlot  != NULL",
-              downloadButton(ns("downloadPlot"), "Download PDF")
-            )
+
+            downloadButton(ns("downloadPlot"), "Download PDF")
           )
         ),
       fluidRow(  
@@ -183,10 +181,8 @@ visualizerModuleUI <- function(id) {
             div(
               DT::dataTableOutput(ns("geneTable"), width = "100%")
             ),
-            conditionalPanel(
-              condition = "output.geneTable != NULL",
-              downloadButton(ns("downloadTable"), "Download CSV")
-            )
+
+            downloadButton(ns("downloadTable"), "Download CSV")
           )
         )
       )

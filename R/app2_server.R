@@ -4,6 +4,7 @@ library(DT)
 library(ggplot2)
 library(shinyjs)
 library(tidyr)
+library(shinyjs)
 
 options(shiny.maxRequestSize=3000*1024^2)
 
@@ -76,13 +77,21 @@ visualizerModuleServer <- function(id) {
     # Render the plot
     output$genePlot <- renderPlot({
         req(plotInputObject())
+        shinyjs::enable("downloadPlot")
         plotInputObject()
       },width = "auto")
+
+    # Start 'downloadPlot' button as disabled
+    observe({
+      shinyjs::disable("downloadPlot")
+    })
 
     output$geneTable <- DT::renderDataTable({
       in_data <- rdsObject()
       
       geneDF <- in_data$geneTable
+
+      shinyjs::enable("downloadTable")
       
       # Render DataTable with left-aligned column header and values
       DT::datatable(geneDF,
@@ -103,6 +112,11 @@ visualizerModuleServer <- function(id) {
         columns = setdiff(names(geneDF), "Gene"), fontSize = "14pt",
         textAlign = "left" # Left-align the text content
       )
+    })
+
+    # Start 'downloadTable' button as disabled
+    observe({
+      shinyjs::disable("downloadTable")
     })
 
     # Download handler for PDF export
