@@ -10,11 +10,16 @@ visualizerModuleUI <- function(id) {
       tags$style(HTML("
 
       .top-container {
-        background: lightgray;
-        margin: 1px;
-        border-radius: 1px;
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
         background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
       }
+
       /* Title styling */
       h1 {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -91,17 +96,25 @@ visualizerModuleUI <- function(id) {
       }
 
       .plot-container {
-        margin: 10px;
-        padding: 10px;
-        background: #f5f5f5;
-        border-radius: 8px;
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
       }
 
       .datatable-container {
-        margin: 10px;
-        padding: 10px;
-        background: #f5f5f5;
-        border-radius: 8px;
+        min-height: 20px;
+        padding: 19px;
+        margin: 14px;
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
       }
 
       #genePlot {
@@ -149,7 +162,7 @@ visualizerModuleUI <- function(id) {
   
           # File Selection and Upload Button
           fluidRow(  
-            column(10,
+            column(12,
               align = "center",
               fileInput(ns("rdsFileInput_Res"), label = "Upload scLANE Model Results", buttonLabel = "Browse"),
               fileInput(ns("rdsFileInput_Orig"), label = "Upload scLANE Input Data", buttonLabel = "Browse"))
@@ -167,6 +180,7 @@ visualizerModuleUI <- function(id) {
           div(
             class = "plot-container",
             div(
+              style = "padding: 15px;",
               plotOutput(ns("genePlot"), width = "100%")
             ),
 
@@ -178,9 +192,7 @@ visualizerModuleUI <- function(id) {
           12,
           div(
             class = "datatable-container",
-            div(
-              DT::dataTableOutput(ns("geneTable"), width = "100%")
-            ),
+            DT::dataTableOutput(ns("geneTable"), width = "100%"),
 
             downloadButton(ns("downloadTable"), "Download CSV")
           )
