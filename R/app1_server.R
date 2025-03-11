@@ -125,13 +125,12 @@ databuilderModuleServer <- function(id) {
     output$validation_message <- renderText({
       validation_message()
     })
-    
-    
+  
     ## RB: This link will change to webserver once live.
   output$end_message <- renderUI({
     req(values$generated_file)
       HTML(paste0("<h5>", "Next, upload this file to the ", 
-                  "<a, target = '_blank', href='https://sclane.rc.ufl.edu'>", 
+                  "<a target = '_blank' href='https://sclane.rc.ufl.edu'>", 
                   "<button style='color:blue'>", "scLANE webserver", "</button></a>"))
     })
     
