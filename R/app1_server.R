@@ -21,9 +21,10 @@ databuilderModuleServer <- function(id) {
     })
     
      observe({
+       shinyjs::hide("generate")
         req(input$upload_file)
         metaObj <- readRDS(input$upload_file$datapath)
-
+        shinyjs::show("generate")
       output$geneTable <- renderPrint({
         if(class(metaObj) != "Seurat")  str(metaObj)
         if(class(metaObj) == "Seurat")  str(metaObj@meta.data)
@@ -101,6 +102,7 @@ databuilderModuleServer <- function(id) {
           
           values$generated_file <- returned_list
           removeModal()
+          shinyjs::hide("geneTable")
           shinyjs::show("download_file")
           shinyjs::show("end_message")
         },
