@@ -99,7 +99,7 @@ visualizerModuleServer <- function(id) {
         options = list(
           autoWidth = TRUE,
           scrollX = TRUE,
-          pageLength = 10, 
+          pageLength = 10,
           columnDefs = list(
             list(className = "dt-left", targets = "_all") # Left-align both header and values
           )

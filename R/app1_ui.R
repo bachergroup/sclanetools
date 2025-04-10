@@ -9,8 +9,10 @@ databuilderModuleUI <- function(id) {
     titlePanel(tags$h2("Generate executable file for running ", tags$a("scLANE",target = "_blank",href="https://sclane.rc.ufl.edu"))),
     sidebarLayout(
       sidebarPanel(
-        fileInput(nshiny("upload_file"),
-          label = tags$h5("Upload Seurat Object or Custom File (requires .rds)")
+        tags$h1("scLANE Data Builder"),
+        fileInput(
+          nshiny("upload_file"),
+          label = tags$p("Upload Seurat Object or Custom File (requires .rds)", style = "font-weight: normal;")
         ),
         uiOutput(nshiny("set_model_type")),
         
