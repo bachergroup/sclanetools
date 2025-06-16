@@ -1,12 +1,10 @@
 Package: sclanetools
 Type: Package
 Title: SC Lane: Tools for Single Cell RNA-Seq Data Analysis
-Version: 0.1.0
-Author: Shyam Bahety
-Maintainer: Shyam Bahety <bahetyshyam@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Version: 0.2.1
+Author: Shyam Bahety and Rhonda Bacher
+Maintainer: Rhonda Bacher <rbacher@ufl.edu>
+Description: Helpers for formatting and visualizing data related to the scLANE R package.
 Encoding: UTF-8
 LazyData: true
 Imports: 
@@ -16,5 +14,6 @@ Imports:
     scLANE,
     Seurat,
     shiny,
-    shinyjs
+    shinyjs,
+    limma
 RoxygenNote: 7.3.2

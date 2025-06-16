@@ -3,6 +3,7 @@ library(dplyr)
 library(scLANE)
 library(Seurat)
 library(shinyjs)
+library(SingleCellExperiment)
 options(shiny.maxRequestSize=3000*1024^2)
 
 
@@ -26,13 +27,15 @@ databuilderModuleServer <- function(id) {
         metaObj <- readRDS(input$upload_file$datapath)
         shinyjs::show("generate")
       output$geneTable <- renderPrint({
-        if(class(metaObj) != "Seurat")  str(metaObj)
+        if(!(class(metaObj) %in% c("SingleCellExperiment", "Seurat")))  str(metaObj)
+        if(class(metaObj) == "SingleCellExperiment") str(metaObj@colData)   
         if(class(metaObj) == "Seurat")  str(metaObj@meta.data)
       })
      
      mdata <- list()
-      if(class(metaObj) != "Seurat")  mdata$colNames = names(metaObj)
+      if(!(class(metaObj) %in% c("SingleCellExperiment", "Seurat")))  mdata$colNames = names(metaObj)
       if(class(metaObj) == "Seurat")  mdata$colNames = colnames(metaObj@meta.data)
+      if(class(metaObj) == "SingleCellExperiment")  mdata$colNames = colnames(metaObj@colData)  
      
      
       output$set_model_type <- renderUI({
@@ -157,7 +160,7 @@ validate_inputs <- function(input) {
     validation_errors <- c(validation_errors, "Please provide a valid number for highly variable genes.")
   }
   if (!is_valid_column(input$upload_file, input$pseudo_time_column)) {
-    validation_errors <- c(validation_errors, paste("Column", input$pseudo_time_column, "not found in the uploaded object."))
+    validation_errors <- c(validation_errors, paste("Column", input$pseudo_time_column, "not found in the uploaded object or is not valid (pseudotime must be numeric)."))
   }
 
   return(validation_errors)
@@ -200,7 +203,7 @@ is_valid_column <- function(upload_file, pseudo_time_column) {
     
     column_exists <- tryCatch(
       {
-        !is.null(uploaded_object[[pseudo_time_column]])
+        !is.null(uploaded_object[[pseudo_time_column]]) & is.numeric(uploaded_object[[pseudo_time_column]])
       },
       error = function(e) {
         FALSE
@@ -248,11 +251,35 @@ process_and_generate_file <- function(input, values) {
 
   if (class(uploaded_object) == "Seurat") {
      hvgs <- Seurat::HVFInfo(uploaded_object)
-     hvgs <- hvgs[hvgs$mean > 0.05, ]
-     hvgs <- hvgs[order(hvgs$variance.standardized, decreasing = TRUE), ]
-     hvgs <- rownames(hvgs)[1:pmin(input$highly_variable_genes, nrow(uploaded_object), nrow(hvgs))]
+     if (!is.null(hvgs)) {
+         hvgs <- hvgs[hvgs$mean > 0.05, ]
+         hvgs <- hvgs[order(hvgs$variance.standardized, decreasing = TRUE), ]
+         hvgs <- rownames(hvgs)[1:pmin(input$highly_variable_genes, nrow(uploaded_object), nrow(hvgs))]
+     } else hvgs <- NULL
+  } else if (class(uploaded_object) == "SingleCellExperiment") {
+      hvgs <- metadata(uploaded_object)$highly_variable_genes
+      if (!is.null(hvgs)) {
+          hvgs <- rownames(hvgs)[1:pmin(input$highly_variable_genes, nrow(uploaded_object), nrow(hvgs))] 
+      }  else hvgs <- NULL
   } else {
-    hvgs <- uploaded_object$HVG[1:pmin(input$highly_variable_genes, nrow(uploaded_object$Data), length(uploaded_object$HVG))]
+     if (!is.null(uploaded_object$hvgs)) {
+        hvgs <- uploaded_object$HVG[1:pmin(input$highly_variable_genes, nrow(uploaded_object$Data), length(uploaded_object$HVG))]
+   } else hvgs <- NULL
+  }
+  if (is.null(hvgs)) {
+    if(class(uploaded_object) == "Seurat") {
+      countsdata <- Seurat::GetAssayData(uploaded_object, slot = "counts", 
+            assay = Seurat::DefaultAssay(uploaded_object))
+    } else if(class(uploaded_object) == "SingleCellExperiment") {
+      countsdata <- data.matrix(BiocGenerics::counts(uploaded_object))
+    } else {
+      countsdata <- uploaded_object$Data
+    }
+    hvgs <- quick_model_gene_var(countsdata)
+    hvgs$Ratio <- hvgs$bio / hvgs$tech
+    hvgs <- subset(hvgs, mean > 1)
+    hvgs <- hvgs[order(hvgs$Ratio, decreasing = T),]
+    hvgs <- rownames(hvgs)[1:pmin(input$highly_variable_genes, nrow(countsdata))]
   }
 
 
@@ -282,9 +309,19 @@ process_and_generate_file <- function(input, values) {
           
           pt_df <- data.frame(DPT = sorted_object[[input$pseudo_time_column]][sorted_cols_order,])
           id_vec <- sorted_object[[input$subject_id]][sorted_cols_order,]
-          expr_mat <- sorted_object@assays$RNA@counts[hvgs,]
+          expr_mat <- sorted_object@assays$RNA@counts[hvgs,sorted_cols_order]
           
-     } else if (class(uploaded_object) != "Seurat") {
+     } else if (class(uploaded_object) == "SingleCellExperiment"){
+        sorted_cols_order <- colnames(sorted_object)
+        if(input$cell_offset_column == "") {
+          cell_offset <- scLANE::createCellOffset(uploaded_object)
+        } else cell_offset <- uploaded_object[[input$cell_offset_column]][sorted_cols_order]
+    
+      pt_df <- data.frame(DPT = uploaded_object[[input$pseudo_time_column]][sorted_cols_order])
+      id_vec <- sorted_object[[input$subject_id]][sorted_cols_order]
+      expr_mat <- data.matrix(BiocGenerics::counts(uploaded_object))[hvgs,sorted_cols_order]
+        
+    } else {
          sorted_cols_order <- colnames(sorted_object)
          if(input$cell_offset_column == "") {
            cell_offset <- scLANE::createCellOffset(sorted_object)
@@ -298,6 +335,7 @@ process_and_generate_file <- function(input, values) {
   }
 
   if(input$model_type == "GLM") {
+         
     if (class(uploaded_object) == "Seurat") {
       if(input$cell_offset_column == "") {
         cell_offset <- scLANE::createCellOffset(uploaded_object)
@@ -306,7 +344,17 @@ process_and_generate_file <- function(input, values) {
       pt_df <- data.frame(DPT = uploaded_object[[input$pseudo_time_column]][[1]])
       id_vec <- NULL
       expr_mat <- uploaded_object@assays$RNA@counts[hvgs,]
-    } else if (class(uploaded_object) != "Seurat") {
+    } else if (class(uploaded_object) == "SingleCellExperiment"){
+            
+      if(input$cell_offset_column == "") {
+        cell_offset <- scLANE::createCellOffset(uploaded_object)
+      } else cell_offset <- uploaded_object[[input$cell_offset_column]]
+    
+      pt_df <- data.frame(DPT = uploaded_object[[input$pseudo_time_column]])
+      id_vec <- NULL
+      expr_mat <- data.matrix(BiocGenerics::counts(uploaded_object))[hvgs,]
+        
+    } else {
  
       if(input$cell_offset_column == "") {
         cell_offset <- scLANE::createCellOffset(uploaded_object$Data)

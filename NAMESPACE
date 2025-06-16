@@ -2,6 +2,7 @@
 
 export(databuilderModuleServer)
 export(databuilderModuleUI)
+export(quick_model_gene_var)
 export(startShinyApp)
 export(visualizerModuleServer)
 export(visualizerModuleUI)
@@ -18,3 +19,5 @@ import(scLANE)
 import(shiny)
 import(shinyjs)
 import(tidyr)
+importFrom(limma,weighted.median)
+importFrom(limma,weightedLowess)
