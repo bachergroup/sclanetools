@@ -4,9 +4,9 @@ library(shinyjs)
 ui <- fluidPage(
   shinyjs::useShinyjs(),
   titlePanel("scLANE Tools"),
-  tabsetPanel(
+  tabsetPanel(id = "mainTabs",
     tabPanel("Data Builder", databuilderModuleUI("databuilder")),
-    tabPanel("scLANE", embedwebModuleUI("sclane")),
+    tabPanel("scLANE", redirectModuleUI("sclane"), value = "sclaneTab"),
     tabPanel("Visualizer", visualizerModuleUI("visualizer"))
   )
 )

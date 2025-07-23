@@ -1,12 +1,11 @@
 library(shiny)
 library(shinyjs)
 #' @export
-embedwebModuleUI <- function(id) {
-  ns <- NS(id)
+redirectModuleUI <- function(id) {
+  nshiny <- NS(id)
   
-  tagList(
-    tags$iframe(src = "https://sclane.rc.ufl.edu/",
-                width = "100%", height = "600px",
-                frameborder = "0")
+  fluidPage(
+    titlePanel(tags$h2("If you were not redirected automatically, please ",
+                       tags$a("click here", href = "https://sclane.rc.ufl.edu/")))
   )
 }
