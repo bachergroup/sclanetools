@@ -3,6 +3,7 @@
 export(databuilderModuleServer)
 export(databuilderModuleUI)
 export(quick_model_gene_var)
+export(redirectModuleUI)
 export(startShinyApp)
 export(visualizerModuleServer)
 export(visualizerModuleUI)

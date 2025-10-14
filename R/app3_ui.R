@@ -1,5 +1,6 @@
 library(shiny)
 library(shinyjs)
+
 #' @export
 redirectModuleUI <- function(id) {
   nshiny <- NS(id)
