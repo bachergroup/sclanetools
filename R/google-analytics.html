@@ -1,0 +1,21 @@
+<!-- Google tag (gtag.js) -->
+<script>
+  function initializeGoogleAnalytics() {
+    let s = document.createElement('script');
+    s.type = "text/javascript"
+    s.async = "true";
+    s.src = "https://www.googletagmanager.com/gtag/js?id=G-1ZVNPTPFJ0";
+    let x = document.getElementsByTagName('script')[0];
+    x.parentNode.insertBefore(s, x);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1ZVNPTPFJ0');
+  };
+  
+  if (document.location.hostname === "https://sclane-tools.rc.ufl.edu") {
+    initializeGoogleAnalytics()
+  }
+  
+</script>
